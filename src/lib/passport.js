@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const pool = require('../database');
 const helpers = require('./helpers');
+const { productos } = require('../routes');
 
 passport.use('local.signin', new LocalStrategy({
   usernameField: 'username',
@@ -49,5 +50,5 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   const rows = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
   done(null, rows[0]);
-});
+}); 
 

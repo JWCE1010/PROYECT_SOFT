@@ -25,22 +25,22 @@ INSERT INTO users (id, username, password, fullname)
 
 SELECT * FROM users;
 
--- LINKS TABLE
-CREATE TABLE links (
+-- PRODUCTO TABLE
+CREATE TABLE producto (
   id INT(11) NOT NULL,
-  title VARCHAR(150) NOT NULL,
-  url VARCHAR(255) NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  precio INT(255) NOT NULL,
   description TEXT,
   user_id INT(11),
   created_at timestamp NOT NULL DEFAULT current_timestamp,
   CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
-ALTER TABLE links
+ALTER TABLE producto
   ADD PRIMARY KEY (id);
 
-ALTER TABLE links
+ALTER TABLE producto
   MODIFY id INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT = 2;
 
-DESCRIBE links;
+DESCRIBE producto;
 
