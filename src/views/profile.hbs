@@ -1,16 +1,33 @@
-<div class="container p-4">
-    <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>Bienvenido {{user.fullname}}</h3>
-                    <h4>{{user.username}}</h4>
-                    <a href="/producto" class="btn btn-primary m-4">
-                        Guardar información de un Producto  
-                    </a>
+<style>
+    #div1 {
+        position: absolute;
+        z-index: 1;
+    }
+
+    #div2 {
+        position: absolute;
+        z-index: 2;
+        top: 50px;
+        left: 50px;
+    }
+</style>
+
+<div id="div1">
+    <img class="card-img-top mx-auto" src="/img/personal.png" alt="" width="500px" height="1000px">
+    <div class="container p-4" id="div2">
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3>Bienvenido {{user.fullname}}</h3>
+                        <h4>{{user.username}}</h4>
+                        <a href="/producto" class="btn btn-primary m-4">
+                            Guardar información de un Producto
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
