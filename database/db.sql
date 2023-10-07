@@ -1,7 +1,7 @@
--- Active: 1695316363730@@localhost@3306@proyect
-CREATE DATABASE proyect;
 
-USE proyect;
+CREATE DATABASE proyecto;
+
+USE proyecto;
 
 -- TABLE USER
 -- all pasword wil be encrypted using SHA1

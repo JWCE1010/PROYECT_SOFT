@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const pool = require('../database');
 const helpers = require('./helpers');
-const { productos } = require('../routes');
+const { producto } = require('../routes');
 
 passport.use('local.signin', new LocalStrategy({
   usernameField: 'username',
