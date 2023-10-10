@@ -21,7 +21,7 @@ ALTER TABLE users
 DESCRIBE users;
 
 INSERT INTO users (id, username, password, fullname) 
-  VALUES (1, 'john', 'password1', 'John Carter');
+  VALUES (1, 'wendy', 'password1', 'wendy Carvajal');
 
 SELECT * FROM users;
 
