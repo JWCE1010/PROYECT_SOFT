@@ -1,14 +1,39 @@
-<main class="index">
-    <header class="masthead d-flex">
-        <div class="container text-center my-auto">
-            <h1 class="mb-1">Administración de tienda de Lubricantes y cambio de aceite</h1>
-            <h3 class="mb-5">
-                <em>Almacene la información de los productos</em>
-            </h3>
-            <a class="btn btn-primary btn-lg" href="/signin">
-                Empecemos
-            </a>
-        </div>
-        <div class="overlay"></div>
-    </header>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poyecto</title>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/worker.js')
+                .then(function (registration) {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(function (error) {
+                    console.log('Error al registrar el Service Worker:', error);
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <main class="index">
+        <header class="masthead d-flex">
+            <div class="container text-center my-auto">
+                <h1 class="mb-1">Administración de tienda de Lubricantes y cambio de aceite</h1>
+                <h3 class="mb-5">
+                    <em>Almacene la información de los productos</em>
+                </h3>
+                <a class="btn btn-primary btn-lg" href="/signin">
+                    Empecemos
+                </a>
+            </div>
+            <div class="overlay"></div>
+        </header>
+    </main>
+</body>
+
+</html>
