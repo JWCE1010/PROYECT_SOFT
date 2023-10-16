@@ -1,50 +1,64 @@
 body {
-    background: #f5f6fa;
-font-family: 'Oswald', sans-serif;
+  background: #f5f6fa;
+  font-family: 'Oswald', sans-serif;
 
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .index {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 .navbar {
-    background: black !important;
+  background: black !important;
 }
 
 .nav-link {
-    color: #fff !important;
+  color: #fff !important;
 }
 
 .masthead {
-    color: white;
-    min-height: 30rem;
-    width: 100%;
-    height: 100%;
-    padding-top: 8rem;
-    padding-bottom: 8rem;
-    background: url('/img/background.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  color: white;
+  min-height: 30rem;
+  width: 100%;
+  height: 100%;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: url('/img/background.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .masthead h1 {
-    font-size: 4rem;
-    margin: 0;
-    padding: 0;
+  font-size: 4rem;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 992px) {
+  .masthead {
+    height: 100vh;
   }
-  
-  @media (min-width: 992px) {
-    .masthead {
-      height: 100vh;
-    }
-    .masthead h1 {
-      font-size: 5.5rem;
-    }
+
+  .masthead h1 {
+    font-size: 5.5rem;
   }
-  .mb-1{
-    background-color: rgba(70, 69, 69, 0.671);
-  }
+}
+
+.mb-1 {
+  background-color: rgba(70, 69, 69, 0.671);
+}
+
+#div1 {
+  position: absolute;
+  z-index: 1;
+}
+
+#div2 {
+  position: absolute;
+  z-index: 2;
+  top: 50px;
+  left: 50px;
+}
