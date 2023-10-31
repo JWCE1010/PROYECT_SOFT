@@ -1,20 +1,21 @@
-import express from "express";
-import http from "http";
-import { Server as SocketServer } from "socket.io";
-import path from "path";
-import morgan from "morgan";
-import exphbs from "express-handlebars";
-import session from "express-session";
-import validator from "express-validator";
-import passport from "passport";
-import flash from "connect-flash";
-import MySQLStore from "express-mysql-session";
-import bodyParser from "body-parser";
-import { database } from "./keys";
+const express = require('express');
+const http = require('http');
+const SocketServer = require('socket.io');
+const path = require('path');
+const morgan = require('morgan');
+const exphbs = require('express-handlebars');
+const session = require('express-session');
+const validator = require('express-validator');
+const passport = require('passport');
+const flash = require('connect-flash');
+const MySQLStore = require('express-mysql-session')(session);
+const bodyParser = require('body-parser');
+const { database } = require('./keys');
+const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
 const server = http.createServer(app);
-const io = new SocketServer(server);
+const io = SocketServer(server);
 
 io.on("connection", socket => {
     console.log(socket.id);
@@ -30,11 +31,11 @@ io.on("connection", socket => {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
-  defaultLayout: 'main',
-  layoutsDir: path.join(app.get('views'), 'layouts'),
-  partialsDir: path.join(app.get('views'), 'partials'),
-  extname: '.hbs',
-  helpers: require('./lib/handlebars')
+    defaultLayout: 'main',
+    layoutsDir: path.join(app.get('views'), 'layouts'),
+    partialsDir: path.join(app.get('views'), 'partials'),
+    extname: '.hbs',
+    helpers: require('./lib/handlebars')
 }));
 app.set('view engine', '.hbs');
 
@@ -43,10 +44,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(session({
-  secret: 'faztmysqlnodemysql',
-  resave: false,
-  saveUninitialized: false,
-  store: new MySQLStore(database)
+    secret: 'faztmysqlnodemysql',
+    resave: false,
+    saveUninitialized: false,
+    store: new MySQLStore(database)
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -54,20 +55,43 @@ app.use(passport.session());
 app.use(validator());
 
 app.use((req, res, next) => {
-  app.locals.message = req.flash('message');
-  app.locals.success = req.flash('success');
-  app.locals.user = req.user;
-  next();
+    app.locals.message = req.flash('message');
+    app.locals.success = req.flash('success');
+    app.locals.user = req.user;
+    next();
 });
 
+passport.use('local.signup', new LocalStrategy({
+    // Configuración de la estrategia
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true // Si necesitas acceder a la solicitud en la estrategia
+}, (req, email, password, done) => {
+    // Implementa la lógica de autenticación aquí
+}));
+app.post('/signin', passport.authenticate('local.signup', {
+  successRedirect: '/profile',
+  failureRedirect: '/signin',
+  failureFlash: true
+}));
+
+app.post('/signup', passport.authenticate('local.signup', {
+    successRedirect: '/profile',
+    failureRedirect: '/signup',
+    failureFlash: true
+}));
+
+// Rutas de Express
 app.use(require('./routes/index'));
 app.use(require('./routes/authentication'));
 app.use('/producto', require('./routes/producto'));
 
+// Ruta pública
 app.use(express.static(path.join(__dirname, 'public')));
 
-const PORT = 3000;
+// Iniciar el servidor
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log('Server is on port', PORT);
+    console.log('Server is on port', PORT);
 });
 
