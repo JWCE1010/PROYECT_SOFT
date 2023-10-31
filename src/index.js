@@ -1,21 +1,32 @@
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
-const exphbs = require('express-handlebars');
-const session = require('express-session');
-const validator = require('express-validator');
-const passport = require('passport');
-const flash = require('connect-flash');
-const MySQLStore = require('express-mysql-session')(session);
-const bodyParser = require('body-parser');
+import express from "express";
+import http from "http";
+import { Server as SocketServer } from "socket.io";
+import path from "path";
+import morgan from "morgan";
+import exphbs from "express-handlebars";
+import session from "express-session";
+import validator from "express-validator";
+import passport from "passport";
+import flash from "connect-flash";
+import MySQLStore from "express-mysql-session";
+import bodyParser from "body-parser";
+import { database } from "./keys";
 
-const { database } = require('./keys');
-
-// Intializations
 const app = express();
-require('./lib/passport');
+const server = http.createServer(app);
+const io = new SocketServer(server);
 
-// Settings
+io.on("connection", socket => {
+    console.log(socket.id);
+
+    socket.on("message", (body) => {
+        socket.broadcast.emit("message", {
+            body,
+            from: socket.id.slice(4)
+        });
+    });
+});
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
@@ -24,12 +35,11 @@ app.engine('.hbs', exphbs({
   partialsDir: path.join(app.get('views'), 'partials'),
   extname: '.hbs',
   helpers: require('./lib/handlebars')
-}))
+}));
 app.set('view engine', '.hbs');
 
-// Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(session({
@@ -43,7 +53,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(validator());
 
-// Global variables
 app.use((req, res, next) => {
   app.locals.message = req.flash('message');
   app.locals.success = req.flash('success');
@@ -51,16 +60,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
 app.use(require('./routes/index'));
 app.use(require('./routes/authentication'));
 app.use('/producto', require('./routes/producto'));
 
-// Public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Starting
-app.listen(app.get('port'), () => {
-  console.log('Server is in port', app.get('port'));
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log('Server is on port', PORT);
 });
 
