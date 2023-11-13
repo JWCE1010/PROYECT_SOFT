@@ -1,10 +1,7 @@
+-- Active: 1695316363730@@localhost@3306@lubrican
 
-CREATE DATABASE proyecto;
+CREATE DATABASE lubrican;
 
-USE proyecto;
-
--- TABLE USER
--- all pasword wil be encrypted using SHA1
 CREATE TABLE users (
   id INT(11) NOT NULL,
   username VARCHAR(16) NOT NULL,
@@ -19,12 +16,6 @@ ALTER TABLE users
   MODIFY id INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT = 2;
 
 DESCRIBE users;
-
-INSERT INTO users (id, username, password, fullname) 
-  VALUES (1, 'wendy', 'password1', 'wendy Carvajal');
-
-SELECT * FROM users;
-
 -- PRODUCTO TABLE
 CREATE TABLE producto (
   id INT(11) NOT NULL,

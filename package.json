@@ -1,10 +1,10 @@
 {
-  "name": "nodejs-mysql-notes",
+  "name": "nodejs-mysql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js --ignore frontend"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
