@@ -43,5 +43,8 @@ router.get('/logout', (req, res) => {
 router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile');
 });
+router.get('/chat', isLoggedIn, (req, res) => {
+  res.render('chat');
+});
 
 module.exports = router;
