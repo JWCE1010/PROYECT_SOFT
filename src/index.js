@@ -9,8 +9,7 @@ const flash = require('connect-flash');
 const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
 const { database } = require('./keys');
-//WebSockets
-const SocketIO = require('socket.io');
+
 // Intializations
 const app = express();
 require('./lib/passport');
@@ -60,6 +59,18 @@ app.use('/producto', require('./routes/producto'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Starting
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log('Server is in port', app.get('port'));
 });
+
+//WebSockets
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:4000/chat",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on('connection', (socket)=>{
+  console.log('new connection', socket.id);
+})
