@@ -1,8 +1,7 @@
 body {
   background: #f5f6fa;
   font-family: 'Oswald', sans-serif;
-
-  overflow: hidden;
+  overflow: visible; 
 }
 
 .index {
@@ -25,7 +24,7 @@ body {
   height: 100%;
   padding-top: 8rem;
   padding-bottom: 8rem;
-  background: url('/img/background.png');
+  background: url('../img/background.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -61,4 +60,52 @@ body {
   z-index: 2;
   top: 50px;
   left: 50px;
+}
+footer {
+  background-color: black;
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 100%;
+  margin: auto;
+  padding: 10px 10px;
+}
+input {
+  width: 100%;
+  display: block;
+  background: #f3f3f3;
+  padding: 20px;
+  border: none;
+  font-size: var(--fs-20);
+  margin-bottom: 15px;
+}
+textarea{
+  width: 100%;
+  resize: none;
+  height: 215px;
+  margin-bottom: 50px;
+}
+.description{
+  padding-right: 200px;
+}
+.title{
+  font-size: large;
+}
+.paragraph{
+  margin: 30px 0;
+  font-size: large;
+  line-height: 1.75;
+}
+.social{
+  display: flex;
+  gap: 35px;
+}
+.social a{
+  color: rgb(248, 247, 247);
+  font-size: large;
+  font-weight: 600;
+  text-decoration: none;
+}
+.social a:hover{
+  text-decoration: underline;
 }

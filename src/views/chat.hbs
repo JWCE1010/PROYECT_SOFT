@@ -35,7 +35,7 @@
                         <div id="actions"></div>
 
                         <div class="form-group">
-                            <input type="text" id="username" value={{user.fullname}}>
+                            <input type="text" id="username" value="{{user.fullname}}">
                         </div>
                         <div class="form-group">
                             <input type="text" id="message" placeholder="Message">
@@ -60,18 +60,15 @@
                 username: username.value
             });
         });
-        message.addEventListener('keypress', function(){
+        message.addEventListener('keypress', function () {
             socket.emit('chat:typing', username.value)
         });
         socket.on('chat:message', function (data) {
             actions.innerHTML = '';
-            output.innerHTML += ~ ´<p>
-                <strong>${data.username}</strong>: ${data.message}
-            </p>´
+            output.innerHTML += `<p><strong>${data.username}</strong>: ${data.message}</p>`;
         });
-        socket.on('chat:typing', function (data){
-            actions.innerHTML = ´<p>
-                <strong><em>${data} is typing a message.</em></strong></p>´
+        socket.on('chat:typing', function (data) {
+            actions.innerHTML = `<p><strong><em>${data} is typing a message.</em></strong></p>`;
         })
     </script>
 
