@@ -28,7 +28,7 @@ app.set('view engine', '.hbs');
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(session({
@@ -71,6 +71,13 @@ const io = require('socket.io')(server, {
   }
 });
 
-io.on('connection', (socket)=>{
+io.on('connection', (socket) => {
   console.log('new connection', socket.id);
-})
+
+  socket.on('chat:message', (data) => {
+    io.sockets.emit('chat:message', data)
+  });
+  socket.on('chat:typing', (data) => {
+    socket.broadcast.emit('chat:typing', data)
+  })
+});
