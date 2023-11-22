@@ -35,3 +35,21 @@ ALTER TABLE producto
 
 DESCRIBE producto;
 
+CREATE TABLE proveedor (
+  id_pro INT(11) NOT NULL,
+  Nombre VARCHAR(50) NOT NULL,
+  Apellido VARCHAR(50) NOT NULL,
+  Empresa VARCHAR(50) NOT NULL,
+  Direccion VARCHAR(50) NOT NULL,
+  user_id INT(11),
+  created_at timestamp NOT NULL DEFAULT current_timestamp,
+  CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+ALTER TABLE proveedor
+  ADD PRIMARY KEY (id_pro);
+
+ALTER TABLE proveedor
+  MODIFY id_pro INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT = 2;
+
+DESCRIBE proveedor;
