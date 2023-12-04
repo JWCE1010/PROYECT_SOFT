@@ -9,6 +9,30 @@ const flash = require('connect-flash');
 const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
 const { database } = require('./keys');
+//bot
+const { Telegraf } = require('telegraf');
+const bot = new Telegraf('6377362224:AAF63YmC7110e2qhpQktYV6UD6FUSOmfInM');
+  
+  bot.start((ctx) => {
+    console.log(ctx.from);
+    console.log(ctx.chat);
+    console.log(ctx.message);
+    console.log(ctx.updateSubTypes);
+    ctx.reply('Bienvenido a Lubricentro ' + ctx.from.first_name + ' ' + ctx.from.last_name + ' en que podemos ayudarte');
+
+  })
+  
+  bot.help(ctx => {
+    ctx.reply('help!!')})
+  
+  bot.command(['mycommand', 'Mmycommand', 'MYCOMMAT', 'test'], (ctx) => {
+    ctx.reply('my custom command');
+  });
+
+  bot.on('photo', ctx => {
+    ctx.reply('Oh you like stickers')
+  })
+  bot.launch();
 
 // Intializations
 const app = express();
@@ -25,7 +49,8 @@ app.engine('.hbs', exphbs({
   helpers: require('./lib/handlebars')
 }))
 app.set('view engine', '.hbs');
-
+app.set('src', 'src');
+app.set('views', 'src/views');
 // Middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -72,13 +97,18 @@ const io = require('socket.io')(server, {
   }
 });
 
+app.set('io', io);
+
 io.on('connection', (socket) => {
   console.log('new connection', socket.id);
 
   socket.on('chat:message', (data) => {
-    io.sockets.emit('chat:message', data)
+    io.sockets.emit('chat:message', data);
   });
+
   socket.on('chat:typing', (data) => {
-    socket.broadcast.emit('chat:typing', data)
-  })
+    socket.broadcast.emit('chat:typing', data);
+  });
 });
+
+module.exports = app;
