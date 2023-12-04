@@ -13,12 +13,43 @@
                 });
         }
     </script>
+    <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #loading-screen {
+      display: none;
+      position: fixed;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8); 
+      text-align: center;
+      padding-top: 20%;
+      font-size: 24px;
+      transition: top 0.5s ease-in-out; 
+    }
+
+    #loading-screen.active {
+      top: 0;
+    }
+     #loading-image {
+            width: 100px; 
+            height: auto;
+        }
+  </style>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
 </head>
 
 <body>
-
+    <div id="loading-screen">
+        <img id="loading-image" src="/img/envase.png" alt="Loading Image"><br>
+        Loading...
+    </div>
     <main class="index">
         <header class="masthead d-flex">
             <div class="container text-center my-auto">
@@ -105,10 +136,6 @@
                     }
 
                     setMessage('Se ha enviado tu correo');
-
-                    // Redirige a la misma interfaz solo después de haber enviado el formulario con éxito
-                    setTimeout(() => {
-                        // Esta redirección solo se realiza si la respuesta es exitosa
                         window.location.href = window.location.href;
                     }, 2000);
                 } catch (error) {
@@ -118,6 +145,27 @@
         </script>
 
     </footer>
+    <script>
+    // Envuelve el código en el evento 'DOMContentLoaded'
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingScreen = document.getElementById('loading-screen');
+      const worker = new Worker('worker.js');
+
+      loadingScreen.style.display = 'block';
+      loadingScreen.classList.add('active');
+
+      worker.postMessage('Comenzar procesamiento');
+
+      // Manejar el mensaje de vuelta del Web Worker
+      worker.addEventListener('message', (event) => {
+        loadingScreen.classList.remove('active');
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 500);
+        console.log(event.data);
+      });
+    });
+  </script>
 </body>
 
 </html>

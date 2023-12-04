@@ -83,6 +83,13 @@ app.use('/proveedor', require('./routes/proveedor'));
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')));
+//Service Workers
+app.get('/procesar', (req, res) => {
+  // Simular una tarea pesada en el servidor
+  setTimeout(() => {
+    res.send('Procesamiento completado');
+  }, 5000); // Simulamos un retraso de 5 segundos
+});
 
 // Starting
 const server = app.listen(app.get('port'), () => {

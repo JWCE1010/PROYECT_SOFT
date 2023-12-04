@@ -33,3 +33,12 @@ self.addEventListener('fetch', function(event) {
       })
   );
 });
+// worker.js
+self.addEventListener('message', (event) => {
+  // Simular una tarea pesada en segundo plano
+  setTimeout(() => {
+    // Enviar un mensaje de vuelta al hilo principal cuando haya terminado
+    self.postMessage('Procesamiento completado');
+  }, 5000); // Simulamos un retraso de 5 segundos
+});
+
