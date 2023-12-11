@@ -1,34 +1,65 @@
-const supertest = require('supertest');
-const chai = require('chai');
+const request = require('supertest');
 const app = require('../src/index');
-const ioClient = require('socket.io-client');
-const { expect } = chai;
-const request = supertest(app);
+const { expect } = require('chai');
+const io = require('socket.io-client');
 
-describe('Test de Integración con Express y Handlebars', () => {
-  it('Debería obtener una respuesta exitosa desde la ruta principal', async () => {
-    const res = await request.get('/');
-    expect(res.status).to.equal(200);
+describe('Server Status and Home Page', () => {
+  it('should respond with status 200 on /', (done) => {
+    request(app)
+      .get('/')
+      .expect(200)
+      .end(done);
   });
-//Prueba de eventos
-/*it('Debería emitir y recibir el evento "chat:message" correctamente', (done) => {
-  const client = ioClient.connect('http://localhost:4000');
 
-  client.on('connect', () => {
-    // ... (código omitido para brevedad)
+  it('should respond with status 200 and HTML content on /', (done) => {
+    request(app)
+      .get('/')
+      .expect(200)
+      .expect('Content-Type', /html/)
+      .end(done);
+  });
+});
+describe('Authentication', () => {
+  it('should respond with status 200 on /logout', (done) => {
+    request(app)
+      .get('/logout')
+      .expect(302)
+      .end(done);
+  });
+});
 
-    client.on('chat:message', (message) => {
-      try {
-        expect(message).to.equal('Hola desde el servidor');
-        client.disconnect();
-        // Asegúrate de llamar a done() después de todas las operaciones asíncronas
-        done();
-      } catch (error) {
-        // Maneja cualquier error y llama a done con el error
-        done(error);
-      }
+describe('Prueba de eventos al WebSocket Service', function () {
+  let socket;
+
+  beforeEach(function (done) {
+    socket = io.connect('http://localhost:4000', {
+      'reconnection delay': 0,
+      'reopen delay': 0,
+      'force new connection': true,
+      transports: ['websocket'],
+    });
+
+    socket.on('connect', function () {
+      done();
+    });
+
+    socket.on('disconnect', function () {
     });
   });
-});*/
 
+  afterEach(function (done) {
+    if (socket.connected) {
+      socket.disconnect();
+    }
+    done();
+  });
+
+  it('should send and receive chat messages', function (done) {
+    socket.emit('chat:message', 'Test Message');
+
+    socket.on('chat:message', function (data) {
+      expect(data).to.equal('Test Message');
+      done();
+    });
+  });
 });
